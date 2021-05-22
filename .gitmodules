@@ -1,0 +1,6 @@
+[submodule "opentrends-builder"]
+	path = opentrends-builder
+	url = https://github.com/carlosra90/opentrends-builder.git
+[submodule "opentrends-api-builder"]
+	path = opentrends-api-builder
+	url = https://github.com/carlosra90/opentrends-api-builder.git
