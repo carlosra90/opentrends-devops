@@ -2,23 +2,23 @@
 
 ACTIVE_CENTER="centro-1"
 PASSIVE_CENTER="centro-2"
-BUILDER_DOMAIN="builder.localhost.com"
+BUILDER_DOMAIN="builder.localhost.com:80"
 
 usage="
 
 $(basename "$0") 
 [--help] 
 [--deploy-builder]
-[--install-apibuilder-job]
+[--run-apibuilder-job]
 [--deploy-apibuilder]
-[--nfs-ip}
+[--nfs-ip]
 ------------------------------
   For Deploying builder, lets make the next vars mixure:
 		 >> sh deploy.sh --deploy-builder --nfs-ip 10.10.10.1
 		 
   For Deploying api-builder, lets exec >> sh deploy.sh --deploy-apibuilder
   
-  For Installing the pipeline and exec the job >> sh deploy.sh --install-apibuilder-job
+  For Installing the pipeline and exec the job >> sh deploy.sh  --run-apibuilder-job
 
   Where:
 --help Shows the FAQs.
@@ -41,13 +41,13 @@ $(basename "$0")
 	
 --deploy-builder will deploy 1 replica on $ACTIVE_CENTER and 0 on $PASSIVE_CENTER.
 
---install-apibuilder-job will deploy the api-builder pipeline, it's highly recommended awaiting for the builder in status running.
+--run-apibuilder-job will deploy the api-builder pipeline, it's highly recommended awaiting for the builder in status running.
 	its mandatory the bastion machine where the script is running on, java installation already running
 
 --nfs-ip is the nfs ipaddress to bound pvc 
 "
 procesar_args () {
-options=$(getopt --options  -h -l deploy-builder,deploy-apibuilder,install-apibuilder-job,nfs-ip:,help -- "$@")
+options=$(getopt --options  -h -l deploy-builder,deploy-apibuilder,run-apibuilder-job,nfs-ip:,help -- "$@")
 
 [ $? -eq 0 ] || {
 
@@ -66,9 +66,9 @@ eval set -- "$options"
         case "$1" in
 
 	 --deploy-apibuilder) DEPLOY_API_BUILDER=true;;
-     --deploy-builder) DEPLOY_BUILDER=true;;
-	 --install-apibuilder-job) INSTALL_API_BUILDER_PIPELINE=true;;
-	 --nfs-ip) shift; NFS_IP=($1);;
+         --deploy-builder) DEPLOY_BUILDER=true;;
+	 --run-apibuilder-job) INSTALL_API_BUILDER_PIPELINE=true;;
+	 --nfs-ip) shift; NFS_IP=($1) ;;
      -h |--help) echo "$usage"
 	 
       exit
